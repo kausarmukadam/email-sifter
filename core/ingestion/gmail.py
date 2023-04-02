@@ -8,7 +8,8 @@ from email.mime.text import MIMEText
 
 # TODO: REMOVE before committing.
 user = 'mukadam.kausar@gmail.com'
-password = 'tehkznrndrjgvqzo'  # Generated using app password.
+# App password generated from gmail.
+password = 'tehkznrndrjgvqzo'
 imap_url = 'imap.gmail.com'
 
 
@@ -58,7 +59,7 @@ def store_to_file(emails, path):
         filename = str(uuid.uuid4()) + ".eml"
         with open(filename, 'w') as file:
             emlGenerator = generator.Generator(file)
-            emlGenerator.flatten(convert_to_mime(msg))
+            emlGenerator.flatten(msg)
 
     for email in emails:
         write_eml_file(email)

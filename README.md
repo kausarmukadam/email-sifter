@@ -126,7 +126,7 @@ Open Questions:
 * Does the model need to be retrained from scratch every time? 
 * Or only fed incremental data updates?
 
-![design](documentation/img.png)
+![design](docs/img.png)
 
 
 ## Implementation
