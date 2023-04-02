@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name='email-sifter',
     version='',
-    packages=['faiss', 'langchain', 'email'],
+    packages=['faiss', 'langchain', 'email', 'openai', 'tiktoken'],
     url='',
     license='',
     author='kausar',

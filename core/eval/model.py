@@ -4,6 +4,8 @@ from langchain import OpenAI
 from langchain.chains import VectorDBQAWithSourcesChain
 import pickle
 
+# TODO: Move this to a secret file
+OPENAI_KEY = "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"
 
 class Model:
     def __init__(self, index_path, vector_path):
@@ -13,7 +15,7 @@ class Model:
             self.store = pickle.load(f)
 
         self.store.index = index
-        self.chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(temperature=0), vectorstore=self.store)
+        self.chain = VectorDBQAWithSourcesChain.from_llm(llm=OpenAI(openai_api_key=OPENAI_KEY, temperature=0), vectorstore=self.store)
 
     def read_index(self):
         """
@@ -33,13 +35,14 @@ class Model:
         # TODO: Add question, answer pair to a session Db
         return model_response
 
-    def __format_answer(self, answer, response_header):
-        """
+    def __format_answer(self, answer: dict, response_header):
+        """ Picks out the important sources for the answer & presents those emails to the user.
         :param answer: Answer received from the model
         :param response_header: Text to append to the answer for easier understanding
         :return:
         """
-        return response_header + "\n" + answer
+        sources = answer['sources'].split(',')
+        return response_header + "\n" + '\n'.join(sources)
 
     def get_important_emails(self, max_len: int):
         """
@@ -47,7 +50,7 @@ class Model:
         :return: List of high interest emails for the customer
         """
         query = "Give me {} important items from my emails?"
-        response_header = "Here's {} important items for you to read! \n"
+        response_header = "Here's some important items for you to read! \n"
         answer = self.__format_answer(
             # TODO: Append user specific data to the index before asking a question
             self.ask_question(query.format(max_len), session_id="", user_id=""),
@@ -56,6 +59,6 @@ class Model:
         return answer
 
 
-model = Model("docs.index", "faiss_store.pkl")
+model = Model("../../data/model_data/docs.index", "../../data/model_data/faiss_store.pkl")
 answer = model.get_important_emails(3)
 print(answer)
