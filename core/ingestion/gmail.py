@@ -7,9 +7,10 @@ from email import generator
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-user = 'mukadam.kausar@gmail.com'
+# Fill this in with personal details before running the data generation script!
+user = ''
 # App password generated from gmail.
-password = 'tehkznrndrjgvqzo'
+password = ''
 imap_url = 'imap.gmail.com'
 data_len = 10
 
